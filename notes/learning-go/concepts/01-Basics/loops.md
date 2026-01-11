@@ -49,3 +49,8 @@ for {
   // do something forever
 }
 ```
+
+### 3. Loop Control Statements
+Go provides `break` and `continue` statements to control loop execution. They work similar to how Python uses them.
+- `break` exits the innermost loop immediately.
+- `continue` skips the remaining code in the current iteration and moves to the next iteration of the loop.
