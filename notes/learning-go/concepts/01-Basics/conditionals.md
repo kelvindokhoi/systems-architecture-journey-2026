@@ -14,6 +14,7 @@ if condition {
 }
 ```
 The `elif` keyword is written as `else if` in Go.
+Painful lesson learned: the `else` must be on the same line as the closing brace of the preceding `if` or `else if` block.
 
 ### 2. Initial Statement of an If Block
 ```go
