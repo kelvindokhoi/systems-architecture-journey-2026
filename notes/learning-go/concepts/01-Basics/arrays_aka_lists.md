@@ -110,3 +110,48 @@ func main() {
     printStrings(names...)
 }
 ```
+
+### 6. Append to Slices
+You can append elements to a slice using the built-in `append` function.
+```go
+slice = append(slice, oneThing)
+slice = append(slice, firstThing, secondThing)
+slice = append(slice, anotherSlice...)
+```
+
+### 7. Range
+Go provides a syntactic sugar to iterate easily over elements of a slice.
+```go
+for INDEX, ELEMENT := range SLICE {
+}
+```
+For example:
+```go
+fruits := []string{"apple", "banana", "grape"}
+for i, fruit := range fruits {
+    fmt.Println(i, fruit)
+}
+// 0 apple
+// 1 banana
+// 2 grape
+```
+
+### 8. Slice of Slices
+Just like Python lists, Go slices can contain other slices.
+Example:
+```go   
+rows := [][]int{}
+rows = append(rows, []int{1, 2, 3})
+rows = append(rows, []int{4, 5, 6})
+fmt.Println(rows)
+// [[1 2 3] [4 5 6]]
+```
+You can access elements like this:
+```go
+fmt.Println(rows[1][2]) // 6
+```
+
+### 9. Appending Bug
+When appending to a slice, be careful if you are appending to a slice that is itself an element of a slice of slices.
+If the cap is exceeded during the append, a new underlying array will be created, and the changes will not be reflected in the original slice of slices.
+Otherwise, it will overwrite the data in the original underlying array.
