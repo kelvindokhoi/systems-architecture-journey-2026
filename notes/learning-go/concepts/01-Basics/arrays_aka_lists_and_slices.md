@@ -155,3 +155,9 @@ fmt.Println(rows[1][2]) // 6
 When appending to a slice, be careful if you are appending to a slice that is itself an element of a slice of slices.
 If the cap is exceeded during the append, a new underlying array will be created, and the changes will not be reflected in the original slice of slices.
 Otherwise, it will overwrite the data in the original underlying array.
+
+### Tricks:
+- To make a string individual characters slice:
+```go
+runes := []rune("hello")
+```
