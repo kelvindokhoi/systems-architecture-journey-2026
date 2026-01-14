@@ -110,3 +110,14 @@ This code snippet counts the occurrences of names in a list and tracks missing n
 
 ### 5. Missing Keys
 When you try to get a value from a map using a key that doesn't exist, Go returns the zero value for the value type.
+
+### 6. Sets using Maps
+Go does not have a built-in set type, but we can use maps to implement sets.
+```go
+distinctWordsBool := make(map[string]bool)
+distinctWordsStruct := make(map[string]struct{})
+
+distinctWordsBool["hello"] = true         // Uses 1 byte for the bool value
+distinctWordsStruct["hello"] = struct{}{} // Uses 0 bytes for the empty struct
+```
+The struct{} type is often preferred for sets because it uses no memory for the value, making it more memory efficient.
