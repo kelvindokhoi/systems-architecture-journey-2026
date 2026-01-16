@@ -123,3 +123,37 @@ func multiply(x int) func(int) int {
     }
 }
 ```
+
+### 9. Receiver function
+
+The syntax for a function is missing something. A receiver it is! Here's the full syntax:
+```go
+func (receiver type) functionName(parameters) (returnTypes) {
+	// function body
+}
+// Like:
+
+type circle struct {
+	x int
+	y int
+    radius int
+}
+
+func (c *circle) grow() {
+    c.radius *= 2
+}
+
+func main() {
+    c := circle{
+        x: 1,
+        y: 2,
+        radius: 4,
+    }
+
+    // notice c is not a pointer in the calling function
+    // but the method still gains access to a pointer to c
+    c.grow()
+    fmt.Println(c.radius)
+    // prints 8
+}
+```
