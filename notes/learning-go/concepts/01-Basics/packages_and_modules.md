@@ -68,4 +68,88 @@ require github.com/google/examplepackage v1.3.0
 
 Each module's path not only serves as an import path prefix for the packages within but also indicates where the go command should look to download it. For example, to download the module `golang.org/x/tools`, the go command would consult the repository located at [https://golang.org/x/tools](https://golang.org/x/tools).
 
+
+### 6. Import Paths
 An "import path" is a string used to import a package. A package's import path is its module path joined with its subdirectory within the module. For example, the module `github.com/google/go-cmp` contains a package in the directory `cmp/`. That package's import path is `github.com/google/go-cmp/cmp`. Packages in the standard library do not have a module path prefix.
+
+### 7. Directory Structure
+
+- We will have many git repo on our machine. Typically one per project.
+- Each repo is typically one module. The root of the repo contains the `go.mod` file.
+- Each modules contains one or more packages. Each package is a directory with `.go` files.
+- Each package contains one or more `.go` files in a single directory.
+
+The path to a package's directory determines its import path and where it can be downloaded from if we decide to host it on a remote cersion control system like GitHub or GitLab.
+
+### 8. $GOPATH
+
+The `$GOPATH` env variable is set by default somewhere, typically, `~/go`. We should avoid working in the `$GOPATH/src` directory directly. That's the old way of doing things and may cause unexpected issues.
+
+### 9. Go Install
+
+The go install command compiles and installs a package or packages on your local machine for your personal usage. It installs the package's compiled binary in the GOBIN directory. (We installed the bootdev cli with it, after all)
+
+First, we make a folder:
+```bash
+mkdir hellogo
+cd hellogo
+go mod init {REMOTE}/{USERNAME}/hellogo
+```
+
+To include another package, we can modify the `go.mod` file like so (`nano go.mod`):
+```bash
+module github.com/kelvindokhoi/hellogo
+
+go 1.24.4
+
+replace github.com/kelvindokhoi/mystrings v0.0.0 => ../mystrings
+require github.com/kelvindokhoi/mystrings v0.0.0
+```
+
+To make your own package installable, ensure that:
+- Your package is a `main` package (i.e., it has `package main` at the top of the file)
+- It has a `main()` function as the entry point
+run:
+```go
+go build
+```
+
+Go to your repo root (where go.mod is) and run:
+
+```bash
+go install
+```
+
+to install an online package, we use `go get`:
+
+```bash
+go get github.com/wagslane/go-tinytime
+```
+
+### 10. Clean packages
+1. Hide internal logic:
+We want to hide functions that aren't meant to be use outside the package.
+In Go, functions with names starting with a lowercase letter are unexported.
+Functions starting with an uppercase letter are exported.
+```go
+package mypackage
+func ExportedFunction() {
+	// This function can be accessed from other packages
+}
+func unexportedFunction() {
+	// This function cannot be accessed from other packages
+}
+```
+
+2. Don't change API:
+The unexported functions can be changed without affecting the users of the package. Often for testing, refactoring, and bug fixing.
+
+A well-deisgned library package will have a stable (consistent) API so that the users don't get breaking changes. In Go, this means keeping the function signatures of exported functions the same across versions.
+
+3. Don't export functions from the main package:
+
+A `main` package is not a library, there's no need to export functions from it.
+
+4. Package should not know about dependents:
+
+Perhaps one of the most important and most broken rules is that a package shouldn't know anything about its dependents. In other words, a package should never have specific knowledge about a particular application that uses it.
