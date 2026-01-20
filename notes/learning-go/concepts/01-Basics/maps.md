@@ -121,3 +121,7 @@ distinctWordsBool["hello"] = true         // Uses 1 byte for the bool value
 distinctWordsStruct["hello"] = struct{}{} // Uses 0 bytes for the empty struct
 ```
 The struct{} type is often preferred for sets because it uses no memory for the value, making it more memory efficient.
+
+### 7. Maps are NOT safe for concurrent use
+
+Maps are not safe for concurrent use! If you have multiple goroutines accessing the same map, and at least one of them is writing to the map, you must [lock](https://en.wikipedia.org/wiki/Readers%E2%80%93writer_lock) your maps with a mutex.
