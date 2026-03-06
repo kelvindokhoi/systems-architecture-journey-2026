@@ -157,3 +157,19 @@ func main() {
     // prints 8
 }
 ```
+
+### 10. Empty name function ready-to-run
+
+In go, we can create functions without names. These functions are called anonymous functions or lambda functions. They can be defined and invoked immediately.
+Example:
+```go
+package main
+import "fmt"
+func main() {
+	result := func(x, y int) int {
+		return x + y
+	}(3, 4) // Immediately invoked with arguments 3 and 4
+
+	fmt.Println(result) // Output: 7
+}
+```
